@@ -8,7 +8,7 @@
 #undef TRACE_INCLUDE_PATH
 #define TRACE_INCLUDE_PATH .
 #undef TRACE_INCLUDE_FILE
-#define TRACE_INCLUDE_FILE hyp_core_ctl_trace
+#define TRACE_INCLUDE_FILE ../../../drivers/soc/qcom/hyp_core_ctl_trace
 
 #if !defined(_TRACE_HYP_CORE_CTL_H) || defined(TRACE_HEADER_MULTI_READ)
 #define _TRACE_HYP_CORE_CTL_H
