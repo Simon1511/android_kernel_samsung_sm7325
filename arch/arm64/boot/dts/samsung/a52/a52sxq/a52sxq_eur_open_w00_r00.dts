@@ -4599,6 +4599,33 @@
 				samsung,esd-irq-gpio1 = <0xffffffff 0x3 0x0>;
 				qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0";
 				phandle = <0x33>;
+				qcom,fod-dim-lut = <
+		        	        /* brightness, alpha */
+					0	255
+					1	236
+					2	230
+					3	224
+					4	220
+					6	213
+					10	202
+					20	183
+					21	181
+					30	168
+					42	154
+					63	133
+					84	116
+					105	101
+					126	88
+					147	76
+					168	64
+					189	54
+					210	44
+					231	35
+					252	26
+					273	17
+					294	9
+					315	1
+				>;
 
 				qcom,mdss-dsi-display-timings {
 
