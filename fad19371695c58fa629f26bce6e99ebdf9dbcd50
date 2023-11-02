@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4a240de_9570bfb2",
+        "filename": "arch/arm64/boot/dts/samsung/a52/a52sxq/a52sxq_eur_open_w00_r00.dts",
+        "patchSetId": 1
+      },
+      "lineNbr": 4627,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-11-02T16:21:28Z",
+      "side": 1,
+      "message": "331?",
+      "range": {
+        "startLine": 4627,
+        "startChar": 5,
+        "endLine": 4627,
+        "endChar": 8
+      },
+      "revId": "fad19371695c58fa629f26bce6e99ebdf9dbcd50",
+      "serverId": "f2ad53df-6715-461d-bac1-42871177773f"
+    }
+  ]
+}
