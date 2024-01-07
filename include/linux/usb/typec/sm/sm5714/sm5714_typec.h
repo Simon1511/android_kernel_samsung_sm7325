@@ -124,7 +124,7 @@
 #define SM5714_SBU_OFF_THRESHOLD			0x10
 #define SM5714_SBU_ON_THRESHOLD				0x80
 #else
-#define SM5714_SBU_OFF_THRESHOLD			0x0A
+#define SM5714_SBU_OFF_THRESHOLD			0x24
 #define SM5714_SBU_ON_THRESHOLD				0x3E
 #endif
 
@@ -302,6 +302,7 @@ struct sm5714_phydrv_data {
 #endif
 	bool is_otg_vboost;
 	bool is_jig_case_on;
+	bool is_noti_src_adv;
 	bool is_mpsm_exit;
 	bool suspended;
 	bool soft_reset;
@@ -346,6 +347,7 @@ struct sm5714_phydrv_data {
 #if IS_ENABLED(CONFIG_VBUS_NOTIFIER)
 	struct delayed_work vbus_noti_work;
 #endif
+	int vbus_noti_status;
 	struct delayed_work rx_buf_work;
 	struct delayed_work vbus_dischg_work;
 	struct delayed_work debug_work;
@@ -357,6 +359,7 @@ struct sm5714_phydrv_data {
 	int host_turn_on_event;
 	int host_turn_on_wait_time;
 	int detach_done_wait;
+	int wait_entermode;
 };
 
 extern struct sm5714_usbpd_data *sm5714_g_pd_data;
