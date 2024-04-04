@@ -5008,12 +5008,17 @@ error:
 
 static void
 sde_crtc_fod_atomic_check(struct sde_crtc_state *cstate,
-			  struct plane_state *pstates, int cnt)
+			  struct plane_state *pstates, int cnt, struct drm_crtc *crtc)
 {
 	uint32_t dim_layer_stage;
 	int plane_idx;
+	struct drm_crtc_state *crtc_state = &cstate->base;
+	struct drm_connector *conn;
+	struct drm_connector_state *conn_state;
+	int i;
 	struct dsi_display *display = get_main_display();
 	struct samsung_display_driver_data *vdd = (struct samsung_display_driver_data *)display->panel->panel_private;
+	u32 finger_mask_state;
 
 	for (plane_idx = 0; plane_idx < cnt; plane_idx++)
 		if (sde_plane_is_fod_layer(pstates[plane_idx].drm_pstate))
@@ -5027,13 +5032,22 @@ sde_crtc_fod_atomic_check(struct sde_crtc_state *cstate,
 							     dim_layer_stage);
 	}
 
+	/* SAMSUNG_FINGERPRINT */
+	for_each_new_connector_in_state(cstate->base.state, conn, conn_state, i) {
+		if (conn_state && conn_state->crtc == crtc) {
+			finger_mask_state = sde_connector_get_property(conn_state,
+					CONNECTOR_PROP_FINGERPRINT_MASK);
+		}
+	}
+
 	if (!cstate->fod_dim_layer) {
 		// Samsung fingerprint HBM
 		if (vdd->finger_mask && vdd->br_info.common_br.finger_mask_bl_level != 0) {
 			vdd->br_info.common_br.finger_mask_bl_level = 0;
 			vdd->finger_mask = 0;
+			finger_mask_state = vdd->finger_mask;
 			vdd->finger_mask_updated = true;
-			SDE_DEBUG("[FINGER_MASK] disabled mask");
+			SDE_ERROR("[FINGER_MASK] disabled mask, finger_mask_state %d, finger_mask %d, finger_mask_updated %d, finger_mask_bl_level %d\n", finger_mask_state, vdd->finger_mask, vdd->finger_mask_updated, vdd->br_info.common_br.finger_mask_bl_level);
 		}
 		return;
 	}
@@ -5046,8 +5060,9 @@ sde_crtc_fod_atomic_check(struct sde_crtc_state *cstate,
 	if (!vdd->finger_mask && vdd->br_info.common_br.finger_mask_bl_level == 0) {
 		vdd->br_info.common_br.finger_mask_bl_level = 331;
 		vdd->finger_mask = 1;
+		finger_mask_state = vdd->finger_mask;
 		vdd->finger_mask_updated = true;
-		SDE_DEBUG("[FINGER_MASK] enabled mask");
+		SDE_ERROR("[FINGER_MASK] enabled mask, finger_mask_state %d, finger_mask %d, finger_mask_updated %d, finger_mask_bl_level %d\n", finger_mask_state, vdd->finger_mask, vdd->finger_mask_updated, vdd->br_info.common_br.finger_mask_bl_level);
 	}
 }
 
@@ -5080,7 +5095,7 @@ static int _sde_crtc_atomic_check_pstates(struct drm_crtc *crtc,
 	if (rc)
 		return rc;
 
-	sde_crtc_fod_atomic_check(cstate, pstates, cnt);
+	sde_crtc_fod_atomic_check(cstate, pstates, cnt, crtc);
 
 	/* assign mixer stages based on sorted zpos property */
 	rc = _sde_crtc_check_zpos(state, sde_crtc, pstates, cstate, mode, cnt);
