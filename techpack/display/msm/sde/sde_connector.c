@@ -860,11 +860,6 @@ int sde_connector_pre_kickoff(struct drm_connector *connector)
 	struct dsi_display *display;
 	int rc;
 
-#if defined(CONFIG_DISPLAY_SAMSUNG)
-	struct samsung_display_driver_data *vdd;
-	u32 finger_mask_state;
-#endif
-
 	if (!connector) {
 		SDE_ERROR("invalid argument\n");
 		return -EINVAL;
@@ -901,23 +896,6 @@ int sde_connector_pre_kickoff(struct drm_connector *connector)
 	params.hdr_meta = &c_state->hdr_meta;
 
 	SDE_EVT32_VERBOSE(connector->base.id);
-
-#if defined(CONFIG_DISPLAY_SAMSUNG)
-	if (c_conn->connector_type == DRM_MODE_CONNECTOR_DSI) {
-		/* SAMSUNG_FINGERPRINT */
-		vdd = display->panel->panel_private;
-		finger_mask_state = sde_connector_get_property(c_conn->base.state,
-				CONNECTOR_PROP_FINGERPRINT_MASK);
-                if (finger_mask_state == 0 && vdd->finger_mask == 1) {
-                        finger_mask_state = vdd->finger_mask;
-                        SDE_ERROR("[FINGER_MASK]updated finger mask mode %d\n", vdd->finger_mask);
-                } else if (finger_mask_state == 1 && vdd->finger_mask == 0) {
-                        finger_mask_state = vdd->finger_mask;
-                        vdd->finger_mask_updated = false;
-                        SDE_ERROR("[FINGER_MASK]updated finger mask mode %d\n", vdd->finger_mask);
-                }
-	}
-#endif
 
 	rc = c_conn->ops.pre_kickoff(connector, c_conn->display, &params);
 
