@@ -44,7 +44,7 @@
 #include <linux/ifconn/ifconn_notifier.h>
 #endif
 #if IS_ENABLED(CONFIG_MUIC_NOTIFIER)
-#include <linux/muic/common/muic_notifier_a73xq.h>
+#include <linux/muic/common/muic_notifier.h>
 #endif
 #if IS_ENABLED(CONFIG_PDIC_NOTIFIER)
 #include <linux/usb/typec/common/pdic_notifier.h>

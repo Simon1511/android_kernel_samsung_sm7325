@@ -7,8 +7,8 @@
 #if IS_ENABLED(CONFIG_ANDROID_SWITCH) || IS_ENABLED(CONFIG_SWITCH)
 #include <linux/switch.h>
 #endif  /* CONFIG_ANDROID_SWITCH || CONFIG_SWITCH */
-#include <linux/muic/common/muic_a73xq.h>
-#include <linux/muic/common/muic_notifier_a73xq.h>
+#include <linux/muic/common/muic.h>
+#include <linux/muic/common/muic_notifier.h>
 #include <linux/sec_class.h>
 
 /*
