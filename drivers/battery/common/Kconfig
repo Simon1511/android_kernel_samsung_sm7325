@@ -183,15 +183,6 @@ config TABLET_MODEL_CONCEPT
 	  tablet models support this for charging,
 	  then it make Y.
 
-config PREVENT_USB_CONN_OVERHEAT
-    bool "enable prevent usb conn overheat"
-    default n
-    help
-	  Say Y here to enable
-	  support CONFIG_PREVENT_USB_CONN_OVERHEAT.
-	  this is for prevent thermal usb conn.
-	  it include some charging scenario for thermal usb conn.
-
 config PD_CHARGER_HV_DISABLE
     bool "enable supporing disable high voltage pd charger"
     depends on BATTERY_SAMSUNG && I2C
@@ -361,5 +352,12 @@ config BATTERY_SAMSUNG_REBOOT
 	 to support for check sec_reboot.
 	 This options for only ARCH_EXYNOS.
 	 If this is Y, checking reboot when power off.
+
+config SBP_FG
+	bool "SBP FUELGAUGE"
+	default n
+	help
+	  Say Y here to enable
+	  Support for SBP FUELGAUGE.
 
 endmenu

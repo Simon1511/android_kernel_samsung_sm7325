@@ -21,11 +21,11 @@
 #endif /* CONFIG_SWITCH */
 
 #include <linux/slab.h>
-#include <linux/muic/common/muic_a73xq.h>
+#include <linux/muic/common/muic.h>
 #include <linux/muic/common/muic_interface.h>
 
 #if IS_ENABLED(CONFIG_MUIC_NOTIFIER)
-#include <linux/muic/common/muic_notifier_a73xq.h>
+#include <linux/muic/common/muic_notifier.h>
 #endif /* CONFIG_MUIC_NOTIFIER */
 
 #if IS_ENABLED(CONFIG_PDIC_NOTIFIER)
@@ -1414,10 +1414,52 @@ int muic_afc_request_cause_clear(void)
 	if (muic_if == NULL)
 		return -ENOENT;
 
-	muic_if->afc_request_cause = 0;
+	muic_if->afc_request_cause &= ~(AFC_REQUEST_DETACH_CLEAR_BIT);
 	return 0;
 }
 EXPORT_SYMBOL_GPL(muic_afc_request_cause_clear);
+
+int muic_afc_get_request_cause(void)
+{
+	struct muic_interface_t *muic_if;
+	int ret = -ENOENT;
+
+	if (static_pdata == NULL) {
+		return -ENOENT;
+	}
+
+	muic_if = static_pdata->muic_if;
+	
+	if (muic_if == NULL) {
+		return -ENOENT;
+	}
+
+	ret = muic_if->afc_request_cause;
+
+	return ret;
+}
+EXPORT_SYMBOL_GPL(muic_afc_get_request_cause);
+
+bool muic_is_enable_afc_request(void)
+{
+	struct muic_interface_t *muic_if;
+	bool ret = 0;
+
+	if (static_pdata == NULL) {
+		return false;
+	}
+
+	muic_if = static_pdata->muic_if;
+	
+	if (muic_if == NULL) {
+		return false;
+	}
+
+	ret = muic_if->afc_request_cause == 0;
+
+	return ret;
+}
+EXPORT_SYMBOL_GPL(muic_is_enable_afc_request);
 
 static int muic_afc_request_voltage_check(int cause, int vol)
 {
