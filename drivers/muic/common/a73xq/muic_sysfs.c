@@ -25,9 +25,9 @@
 #include <linux/types.h>
 #include <linux/device.h>
 #include <linux/delay.h>
-#include <linux/muic/common/muic_a73xq.h>
+#include <linux/muic/common/muic.h>
 #include <linux/sec_class.h>
-#include <linux/muic/common/muic_sysfs_a73xq.h>
+#include <linux/muic/common/muic_sysfs.h>
 #include <linux/muic/common/muic_interface.h>
 
 #if IS_ENABLED(CONFIG_BATTERY_SAMSUNG)

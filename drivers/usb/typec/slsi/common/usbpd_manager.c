@@ -10,9 +10,9 @@
 #include <linux/delay.h>
 #include <linux/of_gpio.h>
 
-#include <linux/muic/common/muic_a73xq.h>
+#include <linux/muic/common/muic.h>
 #if IS_ENABLED(CONFIG_MUIC_NOTIFIER)
-#include <linux/muic/common/muic_notifier_a73xq.h>
+#include <linux/muic/common/muic_notifier.h>
 #endif /* CONFIG_MUIC_NOTIFIER */
 #include <linux/usb/typec/common/pdic_notifier.h>
 #include <linux/usb/typec/slsi/common/s2m_pdic_notifier.h>
